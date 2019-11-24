@@ -1,0 +1,38 @@
+.App {
+  text-align: center;
+  align-items: center;
+  margin: 0% 15%;
+  width: 70%;
+}
+
+.App-logo {
+  height: 40vmin;
+}
+
+.App-main {
+  /* background-color: #282c34; */
+  min-height: 100vh;
+  display: flexbox;
+  /* width: 100%; */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  /* color: white; */
+}
+
+.App-player {
+  text-align: left;
+}
+
+.App-link {
+  color: #f3c69f;
+}
+
+.App-player > .row {
+  margin: 0px;
+}
+
+/* .nav-profile {
+
+} */
