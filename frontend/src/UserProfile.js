@@ -1,19 +1,56 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { NavItem, NavLink } from 'reactstrap';
 
-export default class UserProfile extends React.Component {
-  static propTypes = {
-    name: PropTypes.string,
-    link: PropTypes.string,
-    clickHandler: PropTypes.func,
-  };
+import { logout } from './store/actions'
+
+
+class UserProfile extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.routeChange = this.routeChange.bind(this);
+  }
+
+  routeChange(path) {
+    return () => this.props.history.push(path);
+  }
+
+  loginButton() {
+    return (
+      <NavItem>
+      <Button onClick={this.routeChange('/login')}>Login</Button>
+      </NavItem>
+    )
+  }
 
   render() {
+    if (!this.props.loggedIn) {
+      return this.loginButton()
+    }
     return (
-      <div>
-        <Button onClick={this.props.clickHandler}>{this.props.name}</Button>
-      </div>
-    );
+      <>
+        <NavItem><NavLink disabled>{this.props.username}</NavLink></NavItem>
+        <NavItem>
+          <Button onClick={() => {
+            this.props.dispatch(logout());
+          }}>
+            Logout
+          </Button>
+        </NavItem>
+      </>
+    )
+    // console.log(this.state.auth)
   }
 }
+
+const mapStateToProps = function(state) {
+  return {
+    username: state.profile.username,
+    loggedIn: state.auth.loggedIn
+  }
+}
+
+export default withRouter(connect(mapStateToProps)(UserProfile));

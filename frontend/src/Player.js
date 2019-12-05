@@ -1,8 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { ListGroup, ListGroupItem, Col, ButtonGroup, Button, Row } from 'reactstrap';
+
 import song1 from './data/music/Slow dancing in the dark.mp3';
 import song2 from './data/music/Test Drive.mp3';
-import { ListGroup, ListGroupItem, Col, ButtonGroup, Button, Row } from 'reactstrap';
-// import Math from Math;
+import { setSong } from './store/actions'
+
 import './stylesheets/Player.css'
 
 
@@ -13,10 +16,15 @@ function convertTime(time) {
 }
 
 class Player extends React.Component {
-  state = {
-    selectedTrack: null,
-    player: "stopped"
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      track: this.props.songInfo,
+      player: "stopped"
+    };
+
+    this.storeSong = newSong => this.props.dispatch(setSong(newSong))
+  }
 
   renderPlayerTime(){
     const currentTime = convertTime(this.state.currentTime)
@@ -39,7 +47,7 @@ class Player extends React.Component {
       return (
         <ListGroupItem
           key={item.id}
-          onClick={() => this.setState({ selectedTrack: item.title })}
+          onClick={() => this.setState({ track: { title: item.title, id: item.id }})}
         >
           {item.title}
         </ListGroupItem>
@@ -51,7 +59,7 @@ class Player extends React.Component {
         <Row>
           <Col md="7">
           <h2>
-            { this.state.selectedTrack ? this.state.selectedTrack : "--" }
+            { this.state.track.title ? this.state.track.title : "--" }
           </h2>
           </Col>
           <Col md="3">
@@ -60,7 +68,7 @@ class Player extends React.Component {
           <Col md="2">
           <ButtonGroup width="100%">
             {this.state.player === "stopped" && (
-              <Button disabled={!this.state.selectedTrack} onClick={ () => this.setState({ player: "playing" }) }>
+              <Button disabled={!this.state.track.id} onClick={ () => this.setState({ player: "playing" }) }>
                 Play
               </Button>
             )}
@@ -78,9 +86,9 @@ class Player extends React.Component {
     );
   }
 
-  playerStateHook(prevProps, prevState) {
+  playerStateHook(prevState) {
     if (this.state.player === "stopped") {
-      this.player.pause();
+      this.player.pause()
     } else if (
       this.state.player === "playing" &&
       prevState.player === "stopped"
@@ -89,9 +97,9 @@ class Player extends React.Component {
     }
   }
 
-  playerSongChangeHook(prevProps, prevState) {
+  playerSongChangeHook() {
     let track;
-    switch (this.state.selectedTrack) {
+    switch (this.state.track.title) {
       case "Slow Dancing In The Dark":
         track = song1
         break;
@@ -110,26 +118,42 @@ class Player extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.player !== prevState.player) {
-      this.playerStateHook(prevProps, prevState)
+      this.playerStateHook(prevState)
     }
 
-    if (this.state.selectedTrack !== prevState.selectedTrack) {
-      this.playerSongChangeHook(prevProps, prevState)
+    if (this.state.track.id !== prevState.track.id) {
+      this.playerSongChangeHook()
     }
   }
 
   componentDidMount() {
+    if (this.state.track.src) {
+      this.player.src = this.state.track.src
+      this.player.currentTime = this.state.track.time
+    }
     this.player.addEventListener("timeupdate", e => {
       this.setState({
         currentTime: e.target.currentTime,
         duration: e.target.duration
       });
     });
+
   }
 
   componentWillUnmount() {
+    this.storeSong({
+      ...this.state.track,
+      src: this.player.src,
+      time: this.state.currentTime
+    })
     this.player.removeEventListener("timeupdate", () => { });
   }
 }
 
-export default Player;
+const mapStateToProps = function (state) {
+  return {
+    songInfo: state.song,
+  }
+}
+
+export default connect(mapStateToProps)(Player);
