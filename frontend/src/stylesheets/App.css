@@ -1,8 +1,8 @@
 .App {
   text-align: center;
   align-items: center;
-  margin: 0% 15%;
-  width: 70%;
+  margin: 0%;
+  width: 100%;
 }
 
 .App-logo {
@@ -11,18 +11,29 @@
 
 .App-main {
   /* background-color: #282c34; */
-  min-height: 100vh;
-  display: flexbox;
-  /* width: 100%; */
-  flex-direction: column;
+  margin: 0% 15%;
+  width: 70%;
+}
+
+.App-login {
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  /* color: white; */
+  flex-direction: column;
+
+  vertical-align: middle;
+  min-height: 50vh;
 }
 
 .App-player {
   text-align: left;
+  font-size: calc(10px + 2vmin);
+
+  min-height: 100vh;
+  display: flexbox;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .App-link {
@@ -33,6 +44,10 @@
   margin: 0px;
 }
 
-/* .nav-profile {
+.App-nav-name {
+  width: 50%;
+}
 
-} */
+body, html{
+  height:100%;
+}

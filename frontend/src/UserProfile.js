@@ -1,95 +1,59 @@
 import React from 'react';
 import { Button } from 'reactstrap';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { NavItem, NavLink } from 'reactstrap';
+
+import { logout } from './store/actions'
+
 
 class UserProfile extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      auth: "logged out",
-      username: " ",
-      password: " "
-    };
 
-    this.handleChangePassword = this.handleChangePassword.bind(this);
-    this.handleChangeUsername = this.handleChangeUsername.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.routeChange = this.routeChange.bind(this);
   }
 
-  handleChangeUsername(event) {
-    console.log(this.state.username)
-    this.setState({ username: event.target.value });
-  }
-
-  handleChangePassword(event) {
-    console.log(this.state.username)
-    this.setState({ password: event.target.value });
-  }
-
-  handleSubmit(event) {
-    this.setState({ auth: "logged in" })
-    event.preventDefault();
+  routeChange(path) {
+    return () => this.props.history.push(path);
   }
 
   loginButton() {
     return (
-      <Button onClick={() => {
-        this.setState({ auth: "logging" })
-      }}>Login</Button>
-    )
-  }
-
-  loginForm() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Name:
-          <input
-            type="text"
-            value={this.state.username}
-            onChange={this.handleChangeUsername} />
-        </label>
-        <label>Password:
-          <input
-            type="text"
-            value={this.state.password}
-            onChange={this.handleChangePassword}
-          />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
+      <NavItem>
+      <Button onClick={this.routeChange('/login')}>Login</Button>
+      </NavItem>
     )
   }
 
   render() {
-    console.log(this.state.auth)
-    switch (this.state.auth) {
-      case "logged out":
-        return this.loginButton()
-      case "logging":
-        return this.loginForm()
-      case "logged in":
-        return (
-          <>
-            <div>
-              {this.state.username}
-            </div>
-            <Button onClick={() => {
-              this.setState({ auth: "logged out"})
-            }}>
-              Logout
-            </Button>
-          </>
-        )
-      default:
-        break;
+    if (!this.props.loggedIn) {
+      return this.loginButton()
     }
+    return (
+      <>
+        <NavItem className="nav-name"><NavLink disabled>{this.props.username}</NavLink></NavItem>
+        <NavItem>
+          <Button onClick={() => {
+            this.props.dispatch(logout());
+          }}>
+            Logout
+          </Button>
+        </NavItem>
+      </>
+    )
+    // console.log(this.state.auth)
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.auth === "logging") {
-
-    }
   }
 }
 
-export default UserProfile;
+const mapStateToProps = function(state) {
+  return {
+    username: state.profile.username,
+    loggedIn: state.auth.loggedIn
+  }
+}
+
+export default withRouter(connect(mapStateToProps)(UserProfile));

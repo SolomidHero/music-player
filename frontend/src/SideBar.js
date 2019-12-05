@@ -9,6 +9,7 @@ import {
   NavItem,
   NavLink
 } from 'reactstrap';
+import { withRouter } from 'react-router-dom';
 
 const SideBar = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,17 +19,15 @@ const SideBar = (props) => {
   return (
     <div>
       <Navbar color="light" light expand="md">
-        <NavbarBrand href="/">Musli</NavbarBrand>
+        <NavbarBrand onClick={() => props.history.push("/")}>Musli</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
             <NavItem>
               <NavLink href="https://github.com/SolomidHero">GitHub</NavLink>
             </NavItem>
-            <NavItem className="nav-profile">
-              {/* <NavLink href="/components/">Components</NavLink> */}
-              <UserProfile name="U'r name" clickHandler={ () => console.log("Stop it!") } />
-            </NavItem>
+            {/* <NavLink href="/components/">Components</NavLink> */}
+            <UserProfile name="Username" />
           </Nav>
         </Collapse>
       </Navbar>
@@ -36,4 +35,4 @@ const SideBar = (props) => {
   );
 }
 
-export default SideBar;
+export default withRouter(SideBar);

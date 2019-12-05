@@ -2,7 +2,8 @@ import React from 'react';
 import song1 from './data/music/Slow dancing in the dark.mp3';
 import song2 from './data/music/Test Drive.mp3';
 import { ListGroup, ListGroupItem, Col, ButtonGroup, Button, Row } from 'reactstrap';
-// import Math from Math;
+
+import { changeSong } from './store/actions'
 import './stylesheets/Player.css'
 
 
