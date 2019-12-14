@@ -36,6 +36,14 @@ const routing = (
 
 ReactDOM.render(routing, document.getElementById('root'));
 
+let proxy = ""
+// let proxy = "https://cors-anywhere.herokuapp.com/"
+let url = "http://127.0.0.1:8000/users/"
+fetch(proxy + url)
+  .then(res => res.json())
+  .then(res => console.log(res))
+  .catch(e => console.log(e))
+
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
