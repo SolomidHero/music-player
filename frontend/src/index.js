@@ -10,7 +10,7 @@ import './stylesheets/index.css';
 import App from './App';
 import SideBar from './SideBar';
 import NotFound from './NotFound';
-import { Login } from './Form'
+import { Login, Signup } from './Form'
 
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -27,6 +27,7 @@ const routing = (
       <Switch>
         <Route exact path="/" component={App} />
         <Route path="/login" component={Login} />
+        <Route path="/register" component={Signup} />
         <Route component={NotFound} />
       </Switch>
     </main>
