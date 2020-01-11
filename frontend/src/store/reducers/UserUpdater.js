@@ -11,7 +11,8 @@ const LogoutState = {
     title: null,
     src: null,
     time: 0
-  }
+  },
+  playlist: []
 }
 
 export { LogoutState };
@@ -37,6 +38,11 @@ export default (state = LogoutState, action) => {
         song: {
           ...action.value
         }
+      }
+    case 'SONGS_FETCH':
+      return {
+        ...state,
+        playlist: action.playlist
       }
     default:
       return state

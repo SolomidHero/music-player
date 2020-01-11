@@ -1,10 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { ListGroup, ListGroupItem, Col, ButtonGroup, Button, Row } from 'reactstrap';
-
-import song1 from './data/music/Slow dancing in the dark.mp3';
-import song2 from './data/music/Test Drive.mp3';
-import { setSong } from './store/actions'
+import { Col, ButtonGroup, Button, Row } from 'reactstrap';
 
 import './stylesheets/Player.css'
 
@@ -19,11 +15,8 @@ class Player extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      track: this.props.songInfo,
       player: "stopped"
     };
-
-    this.storeSong = newSong => this.props.dispatch(setSong(newSong))
   }
 
   renderPlayerTime(){
@@ -39,27 +32,12 @@ class Player extends React.Component {
   }
 
   render() {
-    const songs = [
-      { id: 1, title: "Slow Dancing In The Dark" },
-      { id: 2, title: "Test Drive" }
-    ]
-    let list = songs.map(item => {
-      return (
-        <ListGroupItem
-          key={item.id}
-          onClick={() => this.setState({ track: { title: item.title, id: item.id }})}
-        >
-          {item.title}
-        </ListGroupItem>
-      );
-    });
-
     return (
       <>
         <Row>
           <Col md="7">
           <h2>
-            { this.state.track.title ? this.state.track.title : "--" }
+            { this.props.track.title ? this.props.track.title : "--" }
           </h2>
           </Col>
           <Col md="3">
@@ -68,7 +46,7 @@ class Player extends React.Component {
           <Col md="2">
           <ButtonGroup width="100%">
             {this.state.player === "stopped" && (
-              <Button disabled={!this.state.track.id} onClick={ () => this.setState({ player: "playing" }) }>
+              <Button disabled={!this.props.track.id} onClick={ () => this.setState({ player: "playing" }) }>
                 Play
               </Button>
             )}
@@ -80,8 +58,7 @@ class Player extends React.Component {
           </ButtonGroup>
           </Col>
         </Row>
-        <ListGroup>{list}</ListGroup>
-        <audio ref={ ref => this.player = ref } />
+        <audio /* controls */ ref={ ref => this.player = ref } />
       </>
     );
   }
@@ -99,15 +76,8 @@ class Player extends React.Component {
 
   playerSongChangeHook() {
     let track;
-    switch (this.state.track.title) {
-      case "Slow Dancing In The Dark":
-        track = song1
-        break;
-      case "Test Drive":
-        track = song2
-        break;
-      default:
-        break;
+    if (this.props.track.src) {
+      track = require(`${this.props.track.src}`)
     }
     if (track) {
       this.player.src = track;
@@ -121,15 +91,15 @@ class Player extends React.Component {
       this.playerStateHook(prevState)
     }
 
-    if (this.state.track.id !== prevState.track.id) {
+    if (this.props.track.id !== prevProps.track.id) {
       this.playerSongChangeHook()
     }
   }
 
   componentDidMount() {
-    if (this.state.track.src) {
-      this.player.src = this.state.track.src
-      this.player.currentTime = this.state.track.time
+    if (this.props.track.src) {
+      this.player.src = this.props.track.src
+      this.player.currentTime = this.props.track.time
     }
     this.player.addEventListener("timeupdate", e => {
       this.setState({
@@ -142,7 +112,7 @@ class Player extends React.Component {
 
   componentWillUnmount() {
     this.storeSong({
-      ...this.state.track,
+      ...this.props.track,
       src: this.player.src,
       time: this.state.currentTime
     })
@@ -150,9 +120,9 @@ class Player extends React.Component {
   }
 }
 
-const mapStateToProps = function (state) {
+const mapStateToProps = state => {
   return {
-    songInfo: state.song,
+    track: state.song,
   }
 }
 

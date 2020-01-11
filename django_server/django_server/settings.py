@@ -120,7 +120,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATIC_ROOT = os.path.join(BASE_DIR, "static") 
+# STATIC_ROOT = os.path.join(BASE_DIR, "static")
+# print(BASE_DIR)
 # STATICFILES_DIRS = (
 #   os.path.join(BASE_DIR, 'static'),
 # )
@@ -130,9 +131,9 @@ REST_FRAMEWORK = {
     'rest_framework.permissions.IsAuthenticated',
   ],
   'DEFAULT_AUTHENTICATION_CLASSES': [
+    'rest_framework_simplejwt.authentication.JWTAuthentication',
     'rest_framework.authentication.BasicAuthentication',
     'rest_framework.authentication.SessionAuthentication',
-    'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
   ],
   'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
   'PAGE_SIZE': 10
