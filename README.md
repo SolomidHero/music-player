@@ -1,9 +1,10 @@
 ### Simple React.js + Python Django music player
 
-На данный момент выполнен [deploy](http://http://34.77.191.34/login) на google cloud.
+На данный момент выполнен [deploy](http://34.77.191.34/login) на google cloud.
 
 Конфигурация nginx:
 
+#### **`/etc/nginx/conf.d/music_player.conf`**
 ```
 upstream django {
   server unix:///var/run/music_player_app.sock; # for a file socket
