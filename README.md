@@ -1,6 +1,8 @@
 ### Simple React.js + Python Django music player
 
-На данный момент выполнен [deploy](http://34.77.191.34/login) на google cloud.
+### Production
+
+На данный момент выполнен [deploy](http://34.77.191.34/) на google cloud.
 
 Конфигурация nginx:
 
@@ -32,3 +34,4 @@ server {
   }
 }
 ```
+

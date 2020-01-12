@@ -25,19 +25,19 @@ from rest_framework_simplejwt.views import (
 
 
 router = routers.DefaultRouter()
-router.register('api/users', views.UserViewSet)
-router.register('api/profile', views.ProfileViewSet)
-router.register('api/audio', views.AudioViewSet, base_name='audio')
-router.register('api/musicians', views.MusicianViewSet)
+router.register('users', views.UserViewSet)
+router.register('profile', views.ProfileViewSet)
+router.register('audio', views.AudioViewSet, base_name='audio')
+router.register('musicians', views.MusicianViewSet)
 
 urlpatterns = [
   path('admin/', admin.site.urls),
-  path('', include(router.urls)),
+  path('api/', include(router.urls)),
   path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
   path('api/auth/register/', api.RegistrationAPI.as_view()),
   path('api/auth/login/', api.LoginAPI.as_view()),
   path('api/auth/logout/', api.LogoutAPI.as_view()),
   path('api/auth/user/', api.UserAPI.as_view()),
   path('api/auth/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-  re_path('', TemplateView.as_view(template_name='index.html'))
+  re_path('', TemplateView.as_view(template_name='index.html')),
 ]
