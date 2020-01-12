@@ -54,7 +54,7 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    playlist: state.playlist,
+    playlist: state.player.playlist,
   }
 }
 

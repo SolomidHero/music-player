@@ -4,7 +4,7 @@ import {
   compose
 } from 'redux'
 import thunk from 'redux-thunk'
-import UserUpdater from './reducers/UserUpdater'
+import rootReducer from './reducers'
 
 const composeEnhancers =
   window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -13,8 +13,7 @@ const composeEnhancers =
 
 const configureStore = (initialState = {}) => {
   return createStore(
-    UserUpdater,
-    initialState,
+    rootReducer,
     window.__REDUX_DEVTOOLS_EXTENSION__ && 
     composeEnhancers(
       applyMiddleware(thunk)

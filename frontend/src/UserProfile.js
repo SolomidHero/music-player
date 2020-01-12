@@ -32,7 +32,7 @@ class UserProfile extends React.Component {
     }
     return (
       <>
-        <NavItem><NavLink disabled>{this.props.username}</NavLink></NavItem>
+        <NavItem><NavLink disabled>{this.props.user.username}</NavLink></NavItem>
         <NavItem>
           <Button onClick={() => {
             this.props.dispatch(logout());
@@ -48,8 +48,8 @@ class UserProfile extends React.Component {
 
 const mapStateToProps = function(state) {
   return {
-    username: state.profile.username,
-    loggedIn: state.auth.loggedIn
+    user: state.auth.user,
+    loggedIn: state.auth.isAuthenticated
   }
 }
 

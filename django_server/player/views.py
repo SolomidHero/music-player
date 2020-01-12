@@ -3,8 +3,8 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User, Group
 
 from .models import Audio, Musician, Profile
-from .serializers import AudioSerialiser, UserSerializer,\
-    MusicianSerialiser, ProfileSerialiser
+from .serializers import AudioSerializer, UserSerializer,\
+    MusicianSerializer, ProfileSerializer
 
 from rest_framework import viewsets, permissions
 
@@ -15,18 +15,11 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 class AudioViewSet(viewsets.ModelViewSet):
-  permission_classes = [
-    # permissions.IsAuthenticated,
+  permission_classes = (
     permissions.AllowAny,
-  ]
-  serializer_class = AudioSerialiser
+  )
+  serializer_class = AudioSerializer
   queryset = Audio.objects.all()
-
-  # def get_queryset(self):
-  #   return self.request.user.profile.playlist.all()
-
-  # def perform_create(self, serializer):
-  #   serializer.save(owner=self.request.user)
 
 
 class MusicianViewSet(viewsets.ModelViewSet):
@@ -34,12 +27,18 @@ class MusicianViewSet(viewsets.ModelViewSet):
   permission_classes = [
     permissions.AllowAny,
   ]
-  serializer_class = MusicianSerialiser
+  serializer_class = MusicianSerializer
 
 
 class ProfileViewSet(viewsets.ModelViewSet):
   queryset = Profile.objects.all()
   permission_classes = [
-      permissions.AllowAny,
+    permissions.IsAuthenticated,
   ]
-  serializer_class = ProfileSerialiser
+  serializer_class = ProfileSerializer
+
+  def get_queryset(self):
+    return (self.request.user.profile, )
+
+  def perform_create(self, serializer):
+    serializer.save(owner=self.request.user)

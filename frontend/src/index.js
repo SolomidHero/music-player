@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 import { Route, Switch, Link, BrowserRouter as Router } from 'react-router-dom'
 
 import configureStore from './store/store'
@@ -11,6 +11,7 @@ import App from './App';
 import SideBar from './SideBar';
 import NotFound from './NotFound';
 import { Login, Signup } from './Form'
+import { loadUser } from "./store/actions";
 
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -22,23 +23,49 @@ const store = configureStore(LogoutState)
 export const BACKEND_API = 'http://127.0.0.1:8000'
 
 // React rendering
-const routing = (
-  <Provider store={store}>
-  <Router>
-    <SideBar className="App-header" />
-    <main className="App-main">
-      <Switch>
-        <Route exact path="/" component={App} />
-        <Route path="/login" component={Login} />
-        <Route path="/register" component={Signup} />
-        <Route component={NotFound} />
-      </Switch>
-    </main>
-  </Router>
-  </Provider>
-)
+class RootComponent extends React.Component {
+  
+  render() {
+    return (
+      <Router>
+        <SideBar className="App-header" />
+        <main className="App-main">
+          <Switch>
+            <Route exact path="/" component={App} />
+            <Route path="/login" component={Login} />
+            <Route path="/register" component={Signup} />
+            <Route component={NotFound} />
+          </Switch>
+        </main>
+      </Router>
+    )
+  }
 
-ReactDOM.render(routing, document.getElementById('root'));
+  componentDidMount() {
+    this.props.loadUser();
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    auth: state.auth,
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    loadUser: () => {
+      return dispatch(loadUser());
+    }
+  }
+}
+
+RootComponent = connect(mapStateToProps, mapDispatchToProps)(RootComponent)
+
+ReactDOM.render(
+  <Provider store={store}>
+    <RootComponent/>
+  </Provider>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

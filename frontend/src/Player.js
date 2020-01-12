@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Col, ButtonGroup, Button, Row } from 'reactstrap';
+import { setSong } from './store/actions'
 
 import './stylesheets/Player.css'
 
@@ -17,6 +18,8 @@ class Player extends React.Component {
     this.state = {
       player: "stopped"
     };
+
+    this.storeSong = newSong => this.props.dispatch(setSong(newSong))
   }
 
   renderPlayerTime(){
@@ -122,7 +125,7 @@ class Player extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    track: state.song,
+    track: state.player.song,
   }
 }
 

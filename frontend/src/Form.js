@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 // import { Button } from 'reactstrap';
-import { login } from './store/actions'
+import { login, register } from './store/actions'
 import { withRouter } from 'react-router-dom';
 
 class Login extends React.Component {
@@ -32,20 +32,14 @@ class Login extends React.Component {
   }
 
   handleSubmit(event) {
-    // TODO get request for signing in
-
     event.preventDefault();
-    // verify username and password, get id
-    let id = 123
-    let passed = true
-
-    if (passed) {
-      this.props.dispatch(login(id, this.state.username))
-      this.props.history.push("/");
-    }
+    this.props.login(this.state.username, this.state.password);
   }
 
   render() {
+    if (this.props.isAuthenticated) {
+      this.props.history.push("/");
+    }
     return (
       <div className="App-login">
       <form className="App-login-form" onSubmit={this.handleSubmit}>
@@ -112,29 +106,24 @@ class Signup extends React.Component {
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
 
-    console.log("got data {{name}}")
     this.setState({
       [name]: value
     });
   }
 
   handleSubmit(event) {
-    // TODO post request for registration
-
     event.preventDefault();
-    // verify username and password, get id
-    let id = 123
-    let passed = true
 
-    if (passed) {
-      // auth
-
-      this.props.dispatch(login(id, this.state.username))
-      this.props.history.push("/");
+    // post request for registration
+    if (this.state.password === this.state.repeated_password) {
+      this.props.register(this.state.username, this.state.email, this.state.password);
     }
   }
 
   render() {
+    if (this.props.isAuthenticated) {
+      this.props.history.push("/");
+    }
     return (
       <div className="App-login">
         <form className="App-login-form" onSubmit={this.handleSubmit}>
@@ -203,7 +192,32 @@ class Signup extends React.Component {
   }
 }
 
-Login = connect()(withRouter(Login))
-Signup = connect()(withRouter(Signup))
+const mapStateToProps = state => {
+  let errors = [];
+  if (state.auth.errors) {
+    errors = Object.keys(state.auth.errors).map(field => {
+      return { field, message: state.auth.errors[field] };
+    });
+  }
+  return {
+    errors,
+    isAuthenticated: state.auth.isAuthenticated
+  };
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    login: (username, password) => {
+      return dispatch(login(username, password));
+    },
+    register: (username, email, password) => {
+      return dispatch(register(username, email, password));
+    }
+  };
+}
+
+
+Login = connect(mapStateToProps, mapDispatchToProps)(withRouter(Login))
+Signup = connect(mapStateToProps, mapDispatchToProps)(withRouter(Signup))
 
 export { Login, Signup };

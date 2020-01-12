@@ -16,22 +16,27 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
-from player import views
-# from rest_framework_simplejwt.views import (
-#   TokenObtainPairView,
-#   TokenRefreshView,
-# )
+from player import views, api
+from rest_framework_simplejwt.views import (
+  TokenObtainPairView,
+  TokenRefreshView,
+)
+
 
 router = routers.DefaultRouter()
 router.register('api/users', views.UserViewSet)
 router.register('api/profile', views.ProfileViewSet)
-router.register('api/audio', views.AudioViewSet)
+router.register('api/audio', views.AudioViewSet, base_name='audio')
 router.register('api/musicians', views.MusicianViewSet)
 
 urlpatterns = [
   path('admin/', admin.site.urls),
   path('', include(router.urls)),
   path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+  path('api/auth/register/', api.RegistrationAPI.as_view()),
+  path('api/auth/login/', api.LoginAPI.as_view()),
+  path('api/auth/logout/', api.LogoutAPI.as_view()),
+  path('api/auth/user/', api.UserAPI.as_view()),
+  path('api/auth/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
   # path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-  # path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
