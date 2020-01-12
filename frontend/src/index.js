@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider, connect } from 'react-redux';
-import { Route, Switch, Link, BrowserRouter as Router } from 'react-router-dom'
+import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
 
 import configureStore from './store/store'
 import { LogoutState } from './store/reducers/UserUpdater'
@@ -20,7 +20,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const store = configureStore(LogoutState)
 
 // Backend endpoint
-export const BACKEND_API = 'http://127.0.0.1:8000'
+export const BACKEND_API = ''
 
 // React rendering
 class RootComponent extends React.Component {

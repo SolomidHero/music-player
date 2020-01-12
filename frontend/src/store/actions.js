@@ -23,7 +23,7 @@ export const loadUser = () => {
   return (dispatch, getState) => {
     dispatch({ type: "USER_LOADING" });
     console.log("loading")
-    const refresh = getState().auth.refresh
+    // const refresh = getState().auth.refresh
     const access = getState().auth.access
 
     let headers = {
@@ -121,7 +121,7 @@ export const logout = () => {
   return (dispatch, getState) => {
     let headers = { "Content-Type": "application/json" };
 
-    const refresh = getState().auth.refresh
+    // const refresh = getState().auth.refresh
     const access = getState().auth.access
 
     if (access) {

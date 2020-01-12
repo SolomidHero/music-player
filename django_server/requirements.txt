@@ -6,3 +6,4 @@ djangorestframework-jwt==1.11.0
 pytz==2019.3
 sqlparse==0.3.0
 uWSGI==2.0.18
+djangorestframework-simplejwt==4.4.0

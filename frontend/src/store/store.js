@@ -14,10 +14,7 @@ const composeEnhancers =
 const configureStore = (initialState = {}) => {
   return createStore(
     rootReducer,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && 
-    composeEnhancers(
-      applyMiddleware(thunk)
-    )
+    applyMiddleware(thunk)
   )
 }
 export default configureStore

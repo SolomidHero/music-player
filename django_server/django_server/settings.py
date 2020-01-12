@@ -14,7 +14,8 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+FRONTEND_DIR = os.path.join(os.path.dirname(BASE_DIR), 'frontend')
+print(FRONTEND_DIR)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -23,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '&&eb(#yrn0m4(2*yhac=b%_dpgfmqn7-uepw2o-ll%ep(u@a+2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -57,7 +58,7 @@ ROOT_URLCONF = 'django_server.urls'
 TEMPLATES = [
   {
     'BACKEND': 'django.template.backends.django.DjangoTemplates',
-    'DIRS': [],
+    'DIRS': [os.path.join(FRONTEND_DIR, 'build')],
     'APP_DIRS': True,
     'OPTIONS': {
       'context_processors': [
@@ -120,11 +121,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATIC_ROOT = os.path.join(BASE_DIR, "static")
-# print(BASE_DIR)
-# STATICFILES_DIRS = (
-#   os.path.join(BASE_DIR, 'static'),
-# )
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+STATICFILES_DIRS = (
+  os.path.join(FRONTEND_DIR, 'build', 'static'),
+)
 
 REST_FRAMEWORK = {
   'DEFAULT_PERMISSION_CLASSES': [
@@ -140,11 +141,6 @@ REST_FRAMEWORK = {
 }
 
 # CORS
-
-# CORS_EXPOSE_HEADERS = [
-#   "origin",
-#   "x-requested-with"
-# ]
 
 CORS_ALLOW_CREDENTIALS = True
 
