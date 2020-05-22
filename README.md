@@ -1,4 +1,4 @@
-# Simple React.js + Django music player [![Build Status](https://travis-ci.org/SolomidHero/music-player.svg?branch=devops)](https://travis-ci.org/SolomidHero/music-player)
+# Simple React.js + Django music player [![Build Status](https://travis-ci.org/SolomidHero/music-player.svg?branch=master&kill_cache=1)](https://travis-ci.org/SolomidHero/music-player)
 
 Music player site with basic functionality, such as sign up, login, player. Implemented using `django` backend and `react.js` frontend.
 You can check the deployed app [here](http://34.77.191.34/). 
