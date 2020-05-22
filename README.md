@@ -44,11 +44,33 @@ $ yarn install
 # installs required bootstrap, react, redux
 ```
 
-### Production
+### Development mode
 
-Конфигурация nginx:
+Set the appropriate flags for development:
 
-#### **`/etc/nginx/conf.d/music_player.conf`**
+**`./django_server/django_server/settings.py`**
+```python
+...
+DEBUG = True
+...
+```
+
+Run backend and frontend servers separately:
+```bash
+python ./django_server/manage.py runserver
+# runs django server (backend)
+```
+```bash
+cd ./frontend
+yarn start
+# runs react app server (frontend)
+```
+
+### Production mode (for linux server)
+
+nginx configuration:
+
+**`/etc/nginx/conf.d/music_player.conf`**
 ```
 upstream django {
   server unix:///var/run/music_player_app.sock; # for a file socket

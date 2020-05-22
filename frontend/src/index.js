@@ -20,7 +20,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const store = configureStore(LogoutState)
 
 // Backend endpoint
-export const BACKEND_API = ''
+export const BACKEND_API = 'http://localhost:8000'
 
 // React rendering
 class RootComponent extends React.Component {
