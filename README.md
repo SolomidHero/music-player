@@ -1,8 +1,50 @@
-### Simple React.js + Python Django music player
+# Simple React.js + Python Django music player
+
+Music player site with basic functionality, such as sign up, login, player. Implemented using `django` backend and `react.js` frontend.
+You can check the deployed app [here](http://34.77.191.34/).
+
+## Installation
+
+### Dependencies
+
+First you need common tools:
+
+- `pip` - packet manager for `python3` which is used by django
+- `node.js` - used by many web projects (and frontend here)
+- `yarn` (or `npm`) - packet manager for `node.js`
+
+Install them by simple commands:
+
+**MacOS**
+```zsh
+$ brew install python3 node yarn
+# also installs pip
+```
+**Linux**
+```bash
+$ sudo apt update
+$ sudo apt install python3-pip
+$ sudo apt install nodejs
+$ sudo apt install yarn
+```
+
+**Django dependencies** described in `django_server/requirements.txt`.
+Install them via pip
+(this step is recommended inside the [python virtual environment](https://docs.python.org/3/tutorial/venv.html)):
+```bash
+$ pip install -r ./django_server/requirements.txt
+# installs required django, djangorestframework-jwt, uWSGI, django-cors-headers
+```
+
+**Frontend dependencies** described in `frontend/package.json`.
+Install them via yarn (or npm):
+```bash
+$ cd frontend
+$ yarn install
+# installs required bootstrap, react, redux
+```
 
 ### Production
-
-На данный момент выполнен [deploy](http://34.77.191.34/) на google cloud.
 
 Конфигурация nginx:
 
