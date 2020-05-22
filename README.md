@@ -70,6 +70,12 @@ yarn start
 
 ## Production mode (for linux server)
 
+First build frontend and add it to backend static files:
+```bash
+cd frontend && yarn build
+cd .. && python django_server/manage.py collectstatic
+```
+
 You need to obtain the IP or FQDN for the machine in order to get external endpoints. Better follow this [tutorial of nginx installation](https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-18-04)
 
 Install and run nginx:
