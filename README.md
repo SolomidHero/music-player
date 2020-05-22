@@ -1,7 +1,9 @@
 # Simple React.js + Django music player
 
 Music player site with basic functionality, such as sign up, login, player. Implemented using `django` backend and `react.js` frontend.
-You can check the deployed app [here](http://34.77.191.34/).
+You can check the deployed app [here](http://34.77.191.34/). 
+
+This project already have some initial users in database to play with.
 
 # Installation
 
@@ -68,13 +70,25 @@ yarn start
 
 ## Production mode (for linux server)
 
-First install nginx:
-```
+You need to obtain the IP or FQDN for the machine in order to get external endpoints. Better follow this [tutorial of nginx installation](https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-18-04)
+
+Install and run nginx:
+```bash
 sudo apt install nginx
-sudo /etc/init.d/nginx start
+sudo systemctl start nginx
 ```
 
-Second command uses `nginx.conf` file which must be modified:
+Modify `./django_server/uwsgi.ini` file with project absolute path:
+**`./django_server/uwsgi.ini`**
+```conf
+... # for example "/home/username/music-player/django_server"
+chdir={PROJECT_PATH}/music-player/django_server
+wsgi-file={PROJECT_PATH}/django_server/django_server/wsgi.py
+...
+```
+
+At this point we need to tell `nginx` which `uwsgi_params` should be used.
+To do this `nginx.conf` file must be modified (you can read more about nginx + uwsgi + django installation [here](https://uwsgi-docs.readthedocs.io/en/latest/tutorials/Django_and_nginx.html)).
 
 **`/etc/nginx/conf.d/music_player.conf`**
 ```conf
@@ -87,21 +101,38 @@ server {
   # the port your site will be served on
   listen      80;
   # the domain name it will serve for
-  server_name {SERVER_EXTERNAL_IP}; # substitute with your machine's IP address or FQDN
+  server_name {SERVER_EXTERNAL_IP}; # substitute with your machine's IP address or FQDN, for example example.com
   charset     utf-8;
 
   # max upload size
-  client_max_body_size 75M;   # adjust to taste
+  client_max_body_size 75M;   # adjust to tastes
 
   location /static {
-    alias {/path/to/repo}/music-player/django_server/static; # your Django project's static files - amend as required
+    alias {PROJECT_PATH}/music-player/django_server/static; # your Django project's static files - amend as required
   }
 
   # Finally, send all non-media requests to the Django server.
   location / {
     uwsgi_pass  django;
-    include     {/path/to/repo}/django_server/uwsgi_params; # the uwsgi_params file you installed
+    include     {PROJECT_PATH}/django_server/uwsgi_params; # the uwsgi_params file you installed
   }
 }
 ```
 
+Also you can modify `./music_player.conf` and move it to nginx configurations:
+```bash
+vim ./music_player.conf # modify .conf file as shown below
+sudo mv ./music_player.conf /etc/nginx/conf.d/music_player.conf
+```
+
+Finally restart the nginx:
+```bash
+sudo systemctl restart ngincx
+```
+
+At this you can obtain the website through visiting your external IP
+
+To stop using nginx follow:
+```bash
+sudo systemctl stop nginx
+```
