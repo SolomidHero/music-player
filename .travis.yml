@@ -1,0 +1,19 @@
+language: python
+branches:
+  only:
+  - master
+  - devops
+python:
+  - "3.7"
+  - "3.8"
+# command to install dependencies
+before-install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - nvm install node
+install: 
+  - pip install -r django_server/requirements.txt
+  - (cd frontend && yarn install)
+# command to run tests
+script:
+  - ./django_server/manage.py test
+  - (cd frontend && yarn test)
