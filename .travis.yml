@@ -5,13 +5,11 @@ branches:
   - devops
 python:
   - "3.5"
-  - "3.7"
-before_script:
-  - psql -c 'create database travis_ci_test;' -U postgres
-  - git submodule init
-  - git submodule update
-  - ./scripts/get_static_validation.sh
+  - "3.8"
 # command to install dependencies
+before-install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - nvm install node
 install: 
   - pip install -r django_server/requirements.txt
   - (cd frontend && yarn install)
