@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/music-player/static/css/main.22933951.chunk.css",
+    "main.js": "/music-player/static/js/main.8dd6fb13.chunk.js",
+    "main.js.map": "/music-player/static/js/main.8dd6fb13.chunk.js.map",
+    "runtime-main.js": "/music-player/static/js/runtime-main.51088be7.js",
+    "runtime-main.js.map": "/music-player/static/js/runtime-main.51088be7.js.map",
+    "static/css/2.af3c1da9.chunk.css": "/music-player/static/css/2.af3c1da9.chunk.css",
+    "static/js/2.f755ba1a.chunk.js": "/music-player/static/js/2.f755ba1a.chunk.js",
+    "static/js/2.f755ba1a.chunk.js.map": "/music-player/static/js/2.f755ba1a.chunk.js.map",
+    "index.html": "/music-player/index.html",
+    "precache-manifest.24beb2882de62f92e44649ac6063d949.js": "/music-player/precache-manifest.24beb2882de62f92e44649ac6063d949.js",
+    "service-worker.js": "/music-player/service-worker.js",
+    "static/css/2.af3c1da9.chunk.css.map": "/music-player/static/css/2.af3c1da9.chunk.css.map",
+    "static/css/main.22933951.chunk.css.map": "/music-player/static/css/main.22933951.chunk.css.map",
+    "static/js/2.f755ba1a.chunk.js.LICENSE.txt": "/music-player/static/js/2.f755ba1a.chunk.js.LICENSE.txt",
+    "static/media/Slow dancing in the dark.mp3": "/music-player/static/media/Slow dancing in the dark.616dd4c0.mp3",
+    "static/media/Test Drive.mp3": "/music-player/static/media/Test Drive.0c873621.mp3",
+    "static/media/logo.svg": "/music-player/static/media/logo.25bf045c.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.51088be7.js",
+    "static/css/2.af3c1da9.chunk.css",
+    "static/js/2.f755ba1a.chunk.js",
+    "static/css/main.22933951.chunk.css",
+    "static/js/main.8dd6fb13.chunk.js"
+  ]
+}
