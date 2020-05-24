@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+    grafana:
+        ports:
+            - 3000:3000
+        image: grafana/grafana
+        environment:
+            - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource
+        networks:
+            - frontend
+    graphite:
+        image: graphiteapp/graphite-statsd
+        ports:
+            - 18000:80
+            - 2003-2004:2003-2004
+            - 2023-2024:2023-2024
+            - 8125:8125/udp
+            - 8126:8126
+        networks:
+            - frontend
+            - backend
+        volumes:
+            - my_folder:/folder2
+    selenium:
+        image: selenium/standalone-chrome:3.141.59-oxygen
+        ports:
+            - 4444:4444
+        volumes:
+            - /dev/shm:/dev/shm
+        networks:
+            - browsers
+    worker:
+        build: .
+        networks:
+            - backend
+            - browsers
+        volumes:
+            - my_folder:/folder
+networks:
+    frontend:
+    backend:
+    browsers:
+volumes:
+    my_folder:
